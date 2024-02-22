@@ -7,5 +7,9 @@
 fileList=$(ls)
 for file in $fileList;
 do
-	echo "$file" | cut -d'-' -f2-
+	# Check if the file is not hidden and is a regular file
+    	if [[ ! $file =~ ^\..* && -f $file ]];
+	then
+		echo "$file" | cut -d'-' -f2-
+	fi
 done
