@@ -4,8 +4,8 @@
 # Where only the part of the name after the first dash
 #+ is displayed (refer to the example)
 
-dirList="./glob *"
-for i in $dirList;
+fileList=$(ls)
+for file in $fileList;
 do
-	echo "$i" | awk -F- '{print $2}'
+	echo "$file" | cut -d'-' -f2-
 done
