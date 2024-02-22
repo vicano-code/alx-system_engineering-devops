@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # A bash scripts that checks if a file named 'school' exists or not,
 #+ if exist, is it empty or not, and is it a regular file or not
 
