@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# script that displays text when receiving a SIGTERM signal
+
+counter=0
+while [ $counter -eq 0 ]
+do
+	echo  "To infinity and beyond"
+	sleep 2
+	trap 'echo "I am invincible!!!"' SIGTERM
+done

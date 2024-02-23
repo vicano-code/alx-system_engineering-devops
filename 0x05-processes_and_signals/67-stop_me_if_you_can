@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# script that stops another script running in another terminal
+
+pkill -f "7-highlander"
+
+# or
+# pkill -SIGTERM "$(pgrep "4-to_infinity_and_beyond")"
