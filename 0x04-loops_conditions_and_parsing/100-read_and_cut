@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Bash script that reads and extracts fields in the file /etc/passwd
+ 
+filepath="/etc/passwd"
+
+
+while read -r LINE
+do
+	echo "$LINE" | cut -d ":" -f1,3,6
+done < "$filepath"
