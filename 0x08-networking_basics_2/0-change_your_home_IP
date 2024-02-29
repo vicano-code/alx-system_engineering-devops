@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Bash script that configures hosts in /etc/hosts
+# changes localhost to 127.0.0.2
+# and resolves facebook to 8.8.8.8
+# For use in docker: http://blog.jonathanargentiero.com/
+#+ docker-sed-cannot-rename-etcsedl8ysxl-device-or-resource-busy/
+
+#first backup the hostfile
+#cp /etc/hosts tc/hosts.bak
+
+cp /etc/hosts hosts_tmp
+sed -i s/127.*$/127.0.0.2\\tlocalhost\\n8.8.8.8\\tfacebook.com/g hosts_tmp
+cp -f hosts_tmp /etc/hosts
