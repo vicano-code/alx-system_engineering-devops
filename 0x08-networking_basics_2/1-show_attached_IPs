@@ -6,6 +6,6 @@ interfaces=$(ifconfig -s | awk '{if(NR>1) print $1}')
 
 # Loop through each interface and display IPv4 addresses
 for interface in $interfaces; do
-    ipv4=$(ifconfig $interface | awk '/inet / {print $2}')
+    ipv4=$(ifconfig "$interface" | awk '/inet / {print $2}')
     echo "$ipv4"
 done
