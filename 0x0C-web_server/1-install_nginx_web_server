@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Automating tasks
+# Install nginx on web server, listening on port 80
+# querying Nginx at its root / with a GET request (requesting a page):
+# returns the string "Hello World!"
+# Transfer file to server and run
+# eg: curl <server IP> from your PC or "curl localhost" from server
+
+sudo apt-get install -y update
+sudo apt-get install -y nginx
+sudo ufw allow 'Nginx HTTP'  # traffic on port 80 only
+echo "Hello World!" | sudo tee /var/www/html/index.html
+sudo service nginx start
