@@ -3,7 +3,7 @@
 # Distributes request using roundrobin algo & sends traffic to servers: web-01 and web-02
 
 
-CONFIG="\\\nlisten appname 0.0.0.0:80\n\tmode http\n\tbalance roundrobin\n\toption httpclose\n\toption forwardfor\n\tserver 287482-web-01 54.157.179.15 check\n\tserver 287482-web-02 100.25.30.122 check\n"
+CONFIG="\\\nfrontend http_front\n\tbind 0.0.0.0:80\n\tstats uri /haproxy?stats\n\tdefault_backend http_back\n\nbackend http_back\n\tbalance roundrobin\n\tserver 287482-web-01 54.157.179.15:80 check\n\tserver 287482-web-02 100.25.30.122:80 check\n"
 
 sudo apt-get update
 sudo apt-get -y install nginx
