@@ -8,6 +8,6 @@
 
 sudo apt-get install -y update
 sudo apt-get install -y nginx
-sudo ufw allow 'Nginx HTTP'  # traffic on port 80 only
+sudo ufw allow 'Nginx HTTP'
 echo "Hello World!" | sudo tee /var/www/html/index.html
 sudo service nginx start
