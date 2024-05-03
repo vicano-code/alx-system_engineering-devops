@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Configure Nginx server so that /redirect_me is redirecting to another page
-# redirection must be a “301 Moved Permanently”
+# Configure your Nginx server to have a custom 404 page that contains the string Ceci n'est pas une page
 
 sudo apt-get update
 sudo apt-get -y install nginx
@@ -16,4 +15,9 @@ if ! grep -q "location /redirect_me" "/etc/nginx/sites-available/default"; then
         sudo sed -i "48i $ADD_REDIRECT301" /etc/nginx/sites-available/default #add at line 48
 fi
 
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/error_404.html
+
+if ! grep -q "error_page 404 /error_404." "/etc/nginx/sites-available/default"; then
+        sudo sed -i '57i\       error_page 404 /error_404.html;' /etc/nginx/sites-available/default
+fi
 sudo service nginx start
