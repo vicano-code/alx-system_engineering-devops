@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Configure Nginx server so that /redirect_me is redirecting to another page
+# redirection must be a “301 Moved Permanently”
+
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP' # Allow over firewall
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Give the user ownership to website files for easy editing
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+if ! grep -q "location /redirect_me" "/etc/nginx/sites-available/default"; then
+        ADD_REDIRECT301="\\\tlocation /redirect_me {\n\t\treturn 301 https://google.com;\n\t}\n"
+        sudo sed -i "48i $ADD_REDIRECT301" /etc/nginx/sites-available/default #add at line 54
+fi
+
+sudo service nginx start
