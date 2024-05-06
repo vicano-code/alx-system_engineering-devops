@@ -4,7 +4,7 @@
 
 
 sudo apt-get update
-sudo apt-get -y install nginx
+#sudo apt-get -y install nginx
 sudo apt-get install haproxy=2.0.\*
 
 # Making sure that HAproxy can be managed via an init script

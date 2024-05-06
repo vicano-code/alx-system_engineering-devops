@@ -1,22 +1,35 @@
 #!/usr/bin/env bash
 # Configures Nginx so that its HTTP response contains a custom header
 
-ADD301_REDIRECT="\\\tlocation /redirect_me {\n\t\t return 301 https://google.com;\n\t}\n"
-ADD404_NOTFOUND="error_page 404 /custom_404.html;\n\\tlocation = /custom_404.html {\n\t\t root /usr/share/nginx/html;\n\t\tinternal;\n\t}\n"
-PATTERN="#error_page 404 /404.html;"
-ADD_HEADER="\\\tadd_header X-Served-By $HOSTNAME;"
-
 sudo apt-get update
 sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP' # Allow over firewall
 sudo service nginx start
 
-echo "Holberton School" | sudo tee /usr/share/nginx/html/index.html
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
-sudo sed -i "30i $ADD301_REDIRECT" /etc/nginx/sites-available/default
+# Give the user ownership to website files for easy editing
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
 
-# Any page that errors shows this new custom_404.html page (uncomment and replace code)
-echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/custom_404.html
-sudo sed -i "s@$PATTERN@$ADD404_NOTFOUND@" /etc/nginx/sites-available/default
-sudo sed -i "24i $ADD_HEADER" /etc/nginx/sites-available/default
+# add a redirection
+if ! grep -q "location /redirect_me" "/etc/nginx/sites-available/default"; then
+        ADD_REDIRECT301="\\\tlocation /redirect_me {\n\t\treturn 301 https://google.com;\n\t}\n"
+        sudo sed -i "48i $ADD_REDIRECT301" /etc/nginx/sites-available/default #add at line 48
+fi
 
-sudo service nginx restarit
+# Create a custom 404error page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/error_404.html
+if ! grep -q "error_page 404 /error_404." "/etc/nginx/sites-available/default"; then
+        sudo sed -i '57i\       error_page 404 /error_404.html;' /etc/nginx/sites-available/default
+fi
+
+# shellcheck disable=SC2154
+
+# Add custom header
+if ! grep -q "add_header X-Served-By" "/etc/nginx/sites-available/default"; then
+        ADD_HEADER="\\\tadd_header X-Served-By $HOSTNAME;"
+        sudo sed -i "24i $ADD_HEADER" /etc/nginx/sites-available/default
+fi
+
+sudo service nginx restart
