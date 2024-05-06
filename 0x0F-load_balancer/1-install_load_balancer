@@ -4,8 +4,9 @@
 
 
 sudo apt-get update
-#sudo apt-get -y install nginx
+sudo apt-get -y install nginx
 sudo apt-get install haproxy=2.0.\*
+sudo service haproxy start
 
 # Making sure that HAproxy can be managed via an init script
 sudo sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/haproxy
@@ -15,39 +16,9 @@ sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 
 # shellcheck disable=SC2154
 
-# configure haproxy
-cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
-global
-    log /dev/log local0
-    log /dev/log local1 notice
-    chroot /var/lib/haproxy
-    stats socket /run/haproxy/admin.sock mode 660 level admin
-    stats timeout 30s
-    user haproxy
-    group haproxy
-    daemon
+CONFIG="\\\nfrontend http_front\n\tbind *:80\n\tdefault_backend http_back\n\nbackend http_back\n\tbalance roundrobin\n\tserver 287482-web-01 54.157.179.15:80 check\n\tserver 287482-web-02 100.25.30.122:80 check\n"
 
-defaults
-    log global
-    mode http
-    option httplog
-    option dontlognull
-    timeout connect 5000
-    timeout client 50000
-    timeout server 50000
+# Configure to include roundrobin and two servers
+sudo sed -i "\$a $CONFIG" /etc/haproxy/haproxy.cfg
 
-frontend http_front
-    bind *:80
-    default_backend http_back
-
-backend http_back
-    balance roundrobin
-    server 287482-web-01 54.157.179.15:80 check
-    server 287482-web-02 100.25.30.122:80 check
-EOF
-
-if [ "$(pgrep -c haproxy)" -le 0 ]; then
-	sudo service haproxy start
-else
-	sudo service haproxy restart
-fi
+sudo service haproxy restart
