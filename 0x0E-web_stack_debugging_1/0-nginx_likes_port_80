@@ -14,7 +14,7 @@ then
         sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
 
         # Add or modify the necessary configuration to listen on port 80
-        sudo sed -i 's/\(listen\s*[^;]*\)80/\180/g' /etc/nginx/nginx.conf
+        sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
         # Restart Nginx to apply changes
         sudo service nginx restart
