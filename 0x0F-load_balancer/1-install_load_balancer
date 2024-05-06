@@ -13,6 +13,8 @@ sudo sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/haproxy
 # Backup original config file before attempt modifications
 sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 
+# shellcheck disable=SC2154
+
 # configure haproxy
 cat <<EOF | sudo tee /etc/haproxy/haproxy.cfg
 global
