@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# configure Nginx to be running, and listening on port 80 of all the server’s active IPv4 IPs
-sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
-sudo sed -i 's/\(listen\s*[^;]*\)80/\180/g' /etc/nginx/nginx.conf
+# configure Nginx to be running & listening on port 80 of all the server’s active IPv4 IPs. service (init) must say that nginx is not running ← for real
+sudo sed -i 's/sites-enabled/sites-available/' /etc/nginx/nginx.conf
 sudo service nginx restart
+echo "" | sudo dd status=none of=/run/nginx.pid
