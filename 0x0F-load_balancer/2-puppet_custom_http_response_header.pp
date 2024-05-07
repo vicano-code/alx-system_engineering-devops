@@ -18,11 +18,6 @@ file_line { 'headercustom':
 	require => Package['nginx'],
 }
 
-exec { 'redirect_me':
-	command  => 'sed -i "48i "\\\tlocation /redirect_me {\n\t\treturn 301 https://google.com;\n\t}\n" /etc/nginx/sites-available/default,
-	provider => 'shell',
-}
-
 service { 'nginx':
 	ensure  => running,
 	require => File_line['headercustom'],
