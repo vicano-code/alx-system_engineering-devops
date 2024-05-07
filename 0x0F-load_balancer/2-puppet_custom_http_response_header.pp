@@ -1,17 +1,16 @@
-# Setup New Ubuntu server with nginx
-# and add a custom HTTP header
+# add a custom HTTP header
 
-exec {'update system':
+exec { 'update':
 	command  => 'sudo apt-get update',
 	provider => shell,
 }
 
-package {'nginx':
+package { 'nginx':
 	ensure  => installed,
 	require => Exec['update'],
 }
 
-file_line {'headercustom':
+file_line { 'headercustom':
 	ensure  => present,
 	path    => '/etc/nginx/sites-available/default',
 	after   => ':80 default_server;',
@@ -19,12 +18,12 @@ file_line {'headercustom':
 	require => Package['nginx'],
 }
 
-exec {'redirect_me':
-	command => 'sed -i "48i "\\\tlocation /redirect_me {\n\t\treturn 301 https://google.com;\n\t}\n" /etc/nginx/sites-available/default,
+exec { 'redirect_me':
+	command  => 'sed -i "48i "\\\tlocation /redirect_me {\n\t\treturn 301 https://google.com;\n\t}\n" /etc/nginx/sites-available/default,
 	provider => 'shell',
 }
 
-service {'nginx':
-	ensure => running,
+service { 'nginx':
+	ensure  => running,
 	require => File_line['headercustom'],
 }
