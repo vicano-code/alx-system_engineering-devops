@@ -1,0 +1,17 @@
+#!/usr/bin//env bash
+# Install ufw firewall & configure to block all incoming traffic except:
+# Ports 22(SSH), 443(HTTPS SSL), 80(HTTP)
+
+# install ufw, ensure IPv6 is enabled & set default policies
+sudo apt-get -y install ufw
+sudo sed -i "s/IPv6=no/IPV6=yes/" /etc/default/ufw
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# set ufw to allow incomig traffic on the ports
+sudo ufw allow ssh
+sudo ufw allow https
+sudo ufw allow http
+
+# start firewall
+sudo ufw enable
