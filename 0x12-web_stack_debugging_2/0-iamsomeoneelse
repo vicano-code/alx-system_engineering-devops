@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# prints the username of the current user to terminal
+
+sudo -u "$1" whoami

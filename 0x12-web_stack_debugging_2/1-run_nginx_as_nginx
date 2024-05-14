@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Instead of running as root, create an nginx user to run your nginx webservers
+# This will help limit the impact of hacking into your server.
+# nginx must be listening on all active IPs on port 8080
+
+# update nginx config file with user 'nginx'
+sudo sed -i "s/#user www-data/user nginx/" /etc/nginx/nginx.conf
+
+#change ownership and permissions of config file
+chmod 700 /etc/nginx/nginx.conf
+chown nginx:nginx /etc/nginx/nginx.conf
+
+# update nginx config file to listen to port 8080
+sudo sed -i "s/80 default_server/8080 default_server/" /etc/nginx/sites-available/default
+
+# netstat -lpn shows apache2 is using 8080
+pkill apache2
+sudo -u nginx service nginx restart
+
