@@ -13,7 +13,7 @@ MYSQL_PASSWORD=$1
 DATE=$(date +'%d-%m-%Y')
 
 # create dump with all databases
-mysqldump -u root -p"$MYSQL_PASSWORD" --all-databases > "backup.sql"
+sudo mysqldump -u root -p"$MYSQL_PASSWORD" --all-databases > "backup.sql"
 
 #check if mysql dump was successful
 if [ $? -ne 0 ]; then
@@ -22,4 +22,4 @@ if [ $? -ne 0 ]; then
 fi
 
 # Compress MySQL dump to tar.gz archive
-tar -czvf "$DATE.tar.gz" "backup.sql"
+sudo tar -czvf "$DATE.tar.gz" "backup.sql"
