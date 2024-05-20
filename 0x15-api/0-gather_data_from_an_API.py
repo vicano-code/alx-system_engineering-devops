@@ -26,7 +26,7 @@ def display_employee_info():
             if todo.get("completed") is True:
                 NUM_DONE_TASKS += 1
                 TASK_TITLE.append(todo.get("title"))
-    print("Employee {} is done with tasks ({}/{}):".format(EMPLOYEE_NAME,
+    print("Employee {} is done with tasks({}/{}):".format(EMPLOYEE_NAME,
                                                            NUM_DONE_TASKS,
                                                            TOTAL_NUM_TASKS))
     for task in TASK_TITLE:
