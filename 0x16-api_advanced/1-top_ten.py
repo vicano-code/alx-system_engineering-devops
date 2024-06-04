@@ -7,6 +7,7 @@ If not a valid subreddit, print None
 import requests
 import json
 
+
 def top_ten(subreddit):
     """prints titles of the first 10 hot posts for a subreddit"""
     headers = {'User-Agent': 'My Custom Agent'}

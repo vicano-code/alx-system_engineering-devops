@@ -9,7 +9,7 @@ import requests
 
 def recurse(subreddit, hot_list=[], after=""):
     """Return titles of all hot articles for a given subreddit or None"""
-    headers = {"User-Agent": "Custom Agent"}
+    headers = {"User-Agent": "Mozilla/5.0"}
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
     params = {'after': after}
     response = requests.get(url, headers=headers, params=params)
@@ -19,7 +19,7 @@ def recurse(subreddit, hot_list=[], after=""):
             hot_list.append(title)
 
             after = response.json().get('data').get('after')
-            
+
             if after is None:
                 return hot_list
             else:
