@@ -15,7 +15,6 @@ def top_ten(subreddit):
     response = requests.get(url, headers=headers, params={"limit": 10})
     if response.status_code == 200:
         r = json.loads(response.text)
-        print(r)
         for d in r.get('data').get('children'):
             title = d.get('data').get('title')
             print(title)
