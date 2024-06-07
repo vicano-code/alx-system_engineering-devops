@@ -1,3 +1,2 @@
->string SCHOOL
-Mime-type: application/x-school-data
-Offset: 0
+0	string SCHOOL School data
+!:mime School
